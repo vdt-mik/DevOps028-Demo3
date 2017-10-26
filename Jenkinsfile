@@ -23,6 +23,7 @@ node ('Slave'){
       if (currentBuild.result == null || currentBuild.result == 'SUCCESS') {
         archiveArtifacts artifacts: 'target/*.jar', onlyIfSuccessful: true  
         sh 'tar -czf liquibase.tar.gz liquibase'
+        sh 'cp target/Samsara-*.jar .'
         sh 'aws s3 cp target/Samsara-*.jar s3://mik-bucket/'
         sh 'aws s3 cp liquibase.tar.gz s3://mik-bucket/'
         sh 'aws s3 cp aws/user-data.sh s3://mik-bucket/'
