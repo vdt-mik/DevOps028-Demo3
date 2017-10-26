@@ -63,17 +63,24 @@ node ('Slave'){
   }
 
   stage('build & push docker image') {
-    docker.withRegistry() {
-    sh 'pwd_22=`aws ecr get-login --no-include-email --region eu-central-1 | awk \'{print \$6}\'` && docker login -u AWS -p "${pwd_22}" https://303036157700.dkr.ecr.eu-central-1.amazonaws.com/samsara'
-    def samsaraPush = docker.image("samsara-${env.BUILD_ID}").push()
+    docker.withRegistry('https://303036157700.dkr.ecr.eu-central-1.amazonaws.com', 'ecr:eu-central-1:ceb0ba5d-18be-4d4c-8090-1120568d9a14') {
+    docker.image("samsara-${env.BUILD_ID}").push()
+  }
+
+
+
+
+//    docker.withRegistry() {
+//    sh 'pwd_22=`aws ecr get-login --no-include-email --region eu-central-1 | awk \'{print \$6}\'` && docker login -u AWS -p "${pwd_22}" https://303036157700.dkr.ecr.eu-central-1.amazonaws.com/samsara'
+//    def samsaraPush = docker.image("samsara-${env.BUILD_ID}").push()
 //    docker.withRegistry('https://303036157700.dkr.ecr.eu-central-1.amazonaws.com', '') {
 
 //        def samsaraImage = docker.build("samsara:${env.BUILD_ID}")
 
         /* Push the container to the custom Registry */
 //        samsaraImage.push()
-    }
-  }
+//    }
+//  }
   stage('Deploy ASG') {
     sh 'chmod +x aws/asg.sh && ./aws/asg.sh'
   }  
