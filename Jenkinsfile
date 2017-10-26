@@ -67,8 +67,8 @@ node ('Slave'){
       script: "aws ecr get-login --no-include-email --region eu-central-1 | awk '{print \$6}'",
       returnStdout: true
       ).trim()
-    sh 'docker login -u AWS -p $DOCKER_PW https://303036157700.dkr.ecr.eu-central-1.amazonaws.com/samsara'
-    docker.image("samsara-${env.BUILD_ID}").push()
+    sh 'docker login -u AWS -p "${DOCKER_PW}" https://303036157700.dkr.ecr.eu-central-1.amazonaws.com/samsara'
+    def samsaraPush = docker.image("samsara-${env.BUILD_ID}").push()
 //    docker.withRegistry('https://303036157700.dkr.ecr.eu-central-1.amazonaws.com', '') {
 
 //        def samsaraImage = docker.build("samsara:${env.BUILD_ID}")
