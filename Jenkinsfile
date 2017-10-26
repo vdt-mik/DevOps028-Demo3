@@ -64,7 +64,8 @@ node ('Slave'){
 
   stage('build & push docker image') {
     docker.withRegistry('https://303036157700.dkr.ecr.eu-central-1.amazonaws.com', 'ecr:eu-central-1:ceb0ba5d-18be-4d4c-8090-1120568d9a14') {
-    docker.image("samsara-${env.BUILD_ID}").push()
+      docker.image("samsara:samsara-${env.BUILD_ID}").push()
+    }
   }
 
 
