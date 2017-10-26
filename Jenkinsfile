@@ -74,7 +74,7 @@ node ('Slave'){
 
         /* Push the container to the custom Registry */
 //        samsaraImage.push()
-//    }
+  }
   stage('Deploy ASG') {
     sh 'chmod +x aws/asg.sh && ./aws/asg.sh'
   }  
